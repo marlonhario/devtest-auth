@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import EyeIcon from 'mdi-react/EyeIcon';
 import KeyVariantIcon from 'mdi-react/KeyVariantIcon';
 
-const Activate = ({ match }) => {
+const ResetPassword = ({ match, history }) => {
   const [formData, setFormData] = useState({
     password1: '',
     password2: '',
@@ -33,7 +34,6 @@ const Activate = ({ match }) => {
   };
 
   const handleSubmit = (e) => {
-    console.log(formData);
     e.preventDefault();
     if ((password1 === password2) && password1 && password2) {
       setFormData({ ...formData, textChange: 'Submitting' });
@@ -42,13 +42,14 @@ const Activate = ({ match }) => {
         resetPasswordLink: token,
       })
         .then((res) => {
-          console.log(res.data.message);
           setFormData({
             ...formData,
             password1: '',
             password2: '',
           });
+
           toast.success(res.data.message);
+          history.push('/log_in');
         })
         .catch(() => {
           toast.error('Something is wrong try again');
@@ -129,16 +130,19 @@ const Activate = ({ match }) => {
   );
 };
 
-Activate.propTypes = {
+ResetPassword.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   match: PropTypes.shape({
     pathname: PropTypes.string,
   }),
 };
 
-Activate.defaultProps = {
+ResetPassword.defaultProps = {
   match: {
     pathname: '',
   },
 };
 
-export default Activate;
+export default withRouter(ResetPassword);

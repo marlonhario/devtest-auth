@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import EyeIcon from 'mdi-react/EyeIcon';
 import KeyVariantIcon from 'mdi-react/KeyVariantIcon';
 import AccountOutlineIcon from 'mdi-react/AccountOutlineIcon';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-function RegisterForm() {
+function RegisterForm(props) {
+  const { history } = props;
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -48,7 +51,8 @@ function RegisterForm() {
               password2: '',
               textChange: 'Submitted',
             });
-            console.log(res);
+
+            history.push('/log_in');
             toast.success(res.data.message);
           })
           .catch((err) => {
@@ -60,7 +64,7 @@ function RegisterForm() {
               password2: '',
               textChange: 'Sign Up',
             });
-            console.log(err.response);
+
             toast.error(err.response.data.errors);
           });
       } else {
@@ -155,4 +159,10 @@ function RegisterForm() {
   );
 }
 
-export default RegisterForm;
+RegisterForm.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default withRouter(RegisterForm);

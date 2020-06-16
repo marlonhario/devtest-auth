@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import AccountOutlineIcon from 'mdi-react/AccountOutlineIcon';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-function RegisterForm() {
+function ForgotPassword(props) {
+  const { history } = props;
   const [formData, setFormData] = useState({
     email: '',
     textChange: '',
@@ -25,7 +28,9 @@ function RegisterForm() {
             ...formData,
             email: '',
           });
+
           toast.success('Please check your email');
+          history.push('/log_in');
         })
         .catch((err) => {
           console.log(err.response);
@@ -69,4 +74,10 @@ function RegisterForm() {
   );
 }
 
-export default RegisterForm;
+ForgotPassword.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default withRouter(ForgotPassword);

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { isAuth } from '../../../helpers/auth';
 
 const Activate = (props) => {
-  const { match } = props;
+  const { match, history } = props;
   const { params: matchParams } = match;
   const { token: matchToken } = matchParams;
   const [formData, setFormData] = useState({
@@ -41,6 +41,7 @@ const Activate = (props) => {
           show: false,
         });
 
+        history.push('/log_in');
         toast.success(res.data.message);
       })
       .catch((err) => {
@@ -109,6 +110,9 @@ const Activate = (props) => {
 };
 
 Activate.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   match: PropTypes.shape({
     pathname: PropTypes.string,
   }),
@@ -120,4 +124,4 @@ Activate.defaultProps = {
   },
 };
 
-export default Activate;
+export default withRouter(Activate);
