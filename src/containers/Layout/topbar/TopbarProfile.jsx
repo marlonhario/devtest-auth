@@ -19,12 +19,13 @@ export default class TopbarProfile extends PureComponent {
 
   render() {
     const { collapse } = this.state;
+    const getUser = JSON.parse(localStorage.getItem('user'));
 
     return (
       <div className="topbar__profile">
         <button type="button" className="topbar__avatar" onClick={this.toggle}>
           <img className="topbar__avatar-img" src={Ava} alt="avatar" />
-          <p className="topbar__avatar-name">Roman Johanson</p>
+          <p className="topbar__avatar-name">{ getUser.name }</p>
           <DownIcon className="topbar__icon" />
         </button>
         {collapse && <button type="button" className="topbar__back" onClick={this.toggle} />}

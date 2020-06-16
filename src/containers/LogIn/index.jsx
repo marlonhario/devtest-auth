@@ -52,14 +52,13 @@ function LogIn(props) {
   };
 
   const responseGoogle = (response) => {
-    console.log(response.tokenId);
     sendGoogleToken(response.tokenId);
   };
 
   const responseFacebook = (response) => {
     sendFacebookToken(response.userID, response.accessToken);
   };
-  console.log(isAuth());
+
   return (
     <div className="account">
       {isAuth() ? <Redirect to="/dashboard_default" /> : null}

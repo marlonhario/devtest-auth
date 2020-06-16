@@ -33,7 +33,6 @@ function ForgotPassword(props) {
           history.push('/log_in');
         })
         .catch((err) => {
-          console.log(err.response);
           toast.error(err.response.data.error);
         });
     } else {
