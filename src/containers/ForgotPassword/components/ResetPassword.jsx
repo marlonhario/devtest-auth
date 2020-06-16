@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-// import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import EyeIcon from 'mdi-react/EyeIcon';
 import KeyVariantIcon from 'mdi-react/KeyVariantIcon';
-// import AccountOutlineIcon from 'mdi-react/AccountOutlineIcon';
-// import { isAuth } from '../../../helpers/auth';
 
 const Activate = ({ match }) => {
   const [formData, setFormData] = useState({
@@ -26,7 +23,6 @@ const Activate = ({ match }) => {
   useEffect(() => {
     const { params: matchParams } = match;
     const { token: matchToken } = matchParams;
-    // let token = matchToken;
     if (matchToken) {
       setFormData({ ...formData, token: matchToken });
     }
@@ -37,7 +33,6 @@ const Activate = ({ match }) => {
   };
 
   const handleSubmit = (e) => {
-    // console.log(password1, password2);
     console.log(formData);
     e.preventDefault();
     if ((password1 === password2) && password1 && password2) {

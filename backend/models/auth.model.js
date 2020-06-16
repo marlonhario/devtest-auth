@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-// user schema
 const userScheama = new mongoose.Schema(
   {
     email: {
@@ -34,7 +33,6 @@ const userScheama = new mongoose.Schema(
   }
 );
 
-// virtual
 userScheama
   .virtual('password')
   .set(function(password) {
@@ -46,7 +44,6 @@ userScheama
     return this._password;
   });
 
-// methods
 userScheama.methods = {
   authenticate: function(plainText) {
     return this.encryptPassword(plainText) === this.hashed_password;

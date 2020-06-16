@@ -30,7 +30,6 @@ function LogIn(props) {
         idToken: tokenId,
       })
       .then((res) => {
-        // console.log(res.data);
         informParent(res);
       })
       .catch((error) => {
@@ -45,7 +44,6 @@ function LogIn(props) {
         accessToken,
       })
       .then((res) => {
-        // console.log(res.data);
         informParent(res);
       })
       .catch((error) => {
@@ -59,11 +57,9 @@ function LogIn(props) {
   };
 
   const responseFacebook = (response) => {
-    // console.log(response);
     sendFacebookToken(response.userID, response.accessToken);
   };
   console.log(isAuth());
-  // console.log(redirectTrigger);
   return (
     <div className="account">
       {isAuth() ? <Redirect to="/dashboard_default" /> : null}

@@ -8,11 +8,7 @@ const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const expressJWT = require('express-jwt');
 const { errorHandler } = require('../helpers/dbErrorHandling');
-const sgMail = require('@sendgrid/mail');
 const nodemailer = require('nodemailer');
-sgMail.setApiKey(process.env.MAIL_KEY);
-
-
 
 exports.registerController = (req, res) => {
   const { name, email, password } = req.body;
@@ -72,12 +68,10 @@ exports.registerController = (req, res) => {
             return res.status(400).json({
                 error: errorHandler(err)
             })
-            // console.log(error)
         } else {
             return res.json({
                 message: `Email has been sent to ${email}`
             })
-            // console.log('Email sendt: ' + info.response);
         }
     });
   }
@@ -135,7 +129,6 @@ exports.signinController = (req, res) => {
       errors: firstError
     });
   } else {
-    // check if user exist
     User.findOne({
       email
     }).exec((err, user) => {
@@ -144,13 +137,11 @@ exports.signinController = (req, res) => {
           errors: 'User with that email does not exist. Please signup'
         });
       }
-      // authenticate
       if (!user.authenticate(password)) {
         return res.status(400).json({
           errors: 'Email and password do not match'
         });
       }
-      // generate a token and send to client
       const token = jwt.sign(
         {
           _id: user._id
@@ -176,7 +167,7 @@ exports.signinController = (req, res) => {
 };
 
 exports.requireSignin = expressJwt({
-  secret: process.env.JWT_SECRET // req.user._id
+  secret: process.env.JWT_SECRET
 });
 
 exports.adminMiddleware = (req, res, next) => {
@@ -270,7 +261,6 @@ exports.forgotPasswordController = (req, res) => {
                     return res.json({
                       message: err.message
                     });
-                      // console.log(error)
                   } else {
                     return res.json({
                       message: `Email has been sent to ${email}. Follow the instruction to activate your account`
@@ -343,14 +333,12 @@ exports.resetPasswordController = (req, res) => {
 };
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT);
-// Google Login
 exports.googleController = (req, res) => {
   const { idToken } = req.body;
 
   client
     .verifyIdToken({ idToken, audience: process.env.GOOGLE_CLIENT })
     .then(response => {
-      // console.log('GOOGLE LOGIN RESPONSE',response)
       const { email_verified, name, email } = response.payload;
       if (email_verified) {
         User.findOne({ email }).exec((err, user) => {
@@ -405,7 +393,6 @@ exports.facebookController = (req, res) => {
       method: 'GET'
     })
       .then(response => response.json())
-      // .then(response => console.log(response))
       .then(response => {
         const { email, name } = response;
         User.findOne({ email }).exec((err, user) => {

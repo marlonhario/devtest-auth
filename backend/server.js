@@ -1,28 +1,18 @@
 const express = require('express')
 const morgan = require('morgan')
-const bodyParser = require('body-parser')
 const cors = require('cors')
 const connectDB = require('./config/db')
 const app = express()
 
-// Config dotev
 require('dotenv').config({
     path: './config/config.env'
 })
 
-// Connect to database
 connectDB();
-
-// Use bodyParser
 app.use(express.json());
-
-// // body parser
-// app.use(bodyParser.json())
-// Load routes
 const authRouter = require('./routes/auth.route')
 const userRouter = require('./routes/user.route')
 
-// Dev Logginf Middleware
 if (process.env.NODE_ENV === 'development') {
     app.use(cors({
         origin: process.env.CLIENT_URL
@@ -30,7 +20,6 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
 
-// Use Routes
 app.use('/api', authRouter)
 app.use('/api', userRouter)
 

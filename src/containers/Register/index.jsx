@@ -1,7 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import RegisterForm from './components/RegisterForm';
-// import { isAuth } from '../../helpers/auth';
 import { isAuth } from '../../helpers/auth';
 
 const Register = () => (
